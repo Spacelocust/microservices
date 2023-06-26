@@ -1,0 +1,102 @@
+version: '3.9'
+
+services:
+  front:
+    build:
+      context: .
+      dockerfile: docker/svelte-kit/Dockerfile
+    ports:
+      - 5173:5173
+    depends_on:
+      auth:
+        condition: service_healthy
+    volumes:
+      - ./front:/home/node/svelte-kit
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    container_name: mc-front
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5173/api/healthz || exit 1
+      timeout: 30s
+      interval: 2s
+      retries: 30
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    container_name: mc-auth
+    restart: unless-stopped
+    volumes:
+      - ./auth:/home/node/api
+    stdin_open: true
+    tty: true
+    ports:
+      - 5000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "node", "-v" ]
+      timeout: 30s
+      interval: 2s
+      retries: 30
+
+  mailer:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    container_name: mc-mailer
+    restart: unless-stopped
+    volumes:
+      - ./mailer:/home/node/api
+    stdin_open: true
+    tty: true
+    ports:
+      - 5001:3000
+    depends_on:
+      auth:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "node", "-v" ]
+      timeout: 30s
+      interval: 2s
+      retries: 30
+
+  mailcatcher:
+    image: schickling/mailcatcher:latest
+    ports:
+      - "1080:1080"
+    container_name: mc-mailcatcher
+    depends_on:
+      mailer:
+        condition: service_healthy
+
+  db:
+    image: mariadb:10.10.2
+    restart: unless-stopped
+    container_name: mc-db
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: "${MARIADB_ROOT_PASSWORD:?err}"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 30s
+      interval: 2s
+      retries: 30
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    container_name: su-phpmyadmin
+    ports:
+      - 8080:80
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 512M
+      MAX_EXECUTION_TIME: 300
