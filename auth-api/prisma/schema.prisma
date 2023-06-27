@@ -8,5 +8,13 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("MYSQL_URL")
+  url      = env("DATABASE_URL")
+}
+
+model RefreshToken {
+  refreshToken String   @id
+  revoked      Boolean  @default(false)
+  userId       String
+  ip           String
+  createdAt    DateTime @default(now())
 }

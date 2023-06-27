@@ -28,50 +28,98 @@ services:
       dockerfile: ./docker/node/Dockerfile
     container_name: mc-auth
     restart: unless-stopped
+    environment:
+      DATABASE_URL: "${AUTH_DB_URL:?err}"
+      USER_API_URL: "${USER_API_URL:?err}"
+      ARTICLE_API_URL: "${ARTICLE_API_URL:?err}"
+      JAEGER_URL: "${JAEGER_URL:?err}"
+      JWT_SECRET: "${JWT_SECRET:?err}"
+      PORT: 5000
+      insecure: true
     volumes:
-      - ./auth:/home/node/api
+      - ./auth-api:/home/node/api
     stdin_open: true
     tty: true
     ports:
       - 5000:3000
     depends_on:
-      db:
+      user:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "node", "-v" ]
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
       timeout: 30s
       interval: 2s
       retries: 30
 
-  mailer:
+  user:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
-    container_name: mc-mailer
+    container_name: mc-user
     restart: unless-stopped
+    environment:
+      DATABASE_URL: "${USER_DB_URL:?err}"
+      JAEGER_URL: "${JAEGER_URL:?err}"
+      JWT_SECRET: "${JWT_SECRET:?err}"
+      insecure: true
+      PORT: 5001
     volumes:
-      - ./mailer:/home/node/api
+      - ./user-api:/home/node/api
     stdin_open: true
     tty: true
     ports:
       - 5001:3000
     depends_on:
-      auth:
+      db:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "node", "-v" ]
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
       timeout: 30s
       interval: 2s
       retries: 30
 
-  mailcatcher:
-    image: schickling/mailcatcher:latest
+  tracing:
+    image: jaegertracing/all-in-one:latest
+    container_name: mc-tracing
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
     ports:
-      - "1080:1080"
-    container_name: mc-mailcatcher
+      - 16686:16686
+      - 14268:14268
+      - 4318:4318
     depends_on:
-      mailer:
+      auth:
         condition: service_healthy
+
+  # mailer:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/node/Dockerfile
+  #   container_name: mc-mailer
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./mailer:/home/node/api
+  #   stdin_open: true
+  #   tty: true
+  #   ports:
+  #     - 5001:3000
+  #   depends_on:
+  #     auth:
+  #       condition: service_healthy
+  #   healthcheck:
+  #     test: [ "CMD", "node", "-v" ]
+  #     timeout: 30s
+  #     interval: 2s
+  #     retries: 30
+
+  # mailcatcher:
+  #   image: schickling/mailcatcher:latest
+  #   ports:
+  #     - "1080:1080"
+  #   container_name: mc-mailcatcher
+  #   depends_on:
+  #     mailer:
+  #       condition: service_healthy
 
   db:
     image: mariadb:10.10.2

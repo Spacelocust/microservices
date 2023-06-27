@@ -2,17 +2,15 @@ PWD=$(shell pwd)
 COMPOSE=docker compose
 COMPOSECI=docker compose -f compose.ci.yml
 EXECAUTH=$(COMPOSE) exec auth
-EXECMAILER=$(COMPOSE) exec mailer
+EXECUSER=$(COMPOSE) exec user
 EXECFRONT=$(COMPOSE) exec front
+BUFF=docker run --rm -it -v "$(PWD):/microservices" -w /microservices/proto bufbuild/buf
 ifeq (up,$(firstword $(MAKECMDGOALS)))
   # use the second argument for "up"
   UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
   # ...and turn them into do-nothing targets
   $(eval $(UP_ENV_FILE):;@:)
 endif
-
-
-BUFF=docker run -v "$(PWD):/microservices" -w /microservices bufbuild/buf 
 
 # Starting and stopping the project
 start:
@@ -50,11 +48,11 @@ ssh-auth:
 bash-auth:
 	$(EXECAUTH) bash
 
-ssh-mailer:
-	$(EXECMAILER) sh
+ssh-user:
+	$(EXECUSER) sh
 
-bash-mailer:
-	$(EXECMAILER) bash
+bash-user:
+	$(EXECUSER) bash
 
 ssh-front:
 	$(EXECFRONT) sh
@@ -69,8 +67,8 @@ logs:
 logs-auth:
 	$(COMPOSE) logs auth
 
-logs-mailer:
-	$(COMPOSE) logs mailer
+logs-user:
+	$(COMPOSE) logs user
 
 logs-front:
 	$(COMPOSE) logs front
@@ -82,11 +80,11 @@ upgrade-auth:
 upgrade-latest-auth:
 	$(EXECAUTH) yarn upgrade-interactive --latest
 
-upgrade-mailer:
-	$(EXECMAILER) yarn upgrade-interactive
+upgrade-user:
+	$(EXECUSER) yarn upgrade-interactive
 
-upgrade-latest-mailer:
-	$(EXECMAILER) yarn upgrade-interactive --latest
+upgrade-latest-user:
+	$(EXECUSER) yarn upgrade-interactive --latest
 
 upgrade-front:
 	$(EXECFRONT) yarn upgrade-interactive
@@ -108,18 +106,18 @@ format-auth:
 format-fix-auth:
 	$(EXECAUTH) yarn format:fix
 
-## Mailer api
-lint-mailer:
-	$(EXECMAILER) yarn lint
+## User api
+lint-user:
+	$(EXECUSER) yarn lint
 
-lint-fix-mailer:
-	$(EXECMAILER) yarn lint:fix
+lint-fix-user:
+	$(EXECUSER) yarn lint:fix
 
-format-mailer:
-	$(EXECMAILER) yarn format
+format-user:
+	$(EXECUSER) yarn format
 
-format-fix-mailer:
-	$(EXECMAILER) yarn format:fix
+format-fix-user:
+	$(EXECUSER) yarn format:fix
 
 ## Front
 lint-front:
@@ -134,8 +132,8 @@ format-front:
 format-fix-front:
 	$(EXECFRONT) yarn format:fix
 
-proto-export:
-	$(BUFF) export ./proto --output ./auth/src/proto
-	$(BUFF) export ./proto --output ./auth/src/proto
-
-proto-generate:
+proto-export: 
+	$(BUFF) mod update
+	$(BUFF) generate
+	$(BUFF) export . --output ../auth-api/src/proto
+	$(BUFF) export . --output ../user-api/src/proto

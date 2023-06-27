@@ -4,6 +4,7 @@ import {
   GrpcOptions,
   Transport,
 } from '@nestjs/microservices';
+import { readFileSync } from 'fs';
 import { addReflectionToGrpcConfig } from 'nestjs-grpc-reflection';
 import { join } from 'path';
 import { ConfigService } from '@nestjs/config';
@@ -15,7 +16,15 @@ export default (cs: ConfigService) =>
     transport: Transport.GRPC,
     options: {
       package: USER_V1ALPHA_PACKAGE_NAME,
-      url: `0.0.0.0:${cs.get('PORT') || 4002}`,
+      url: `0.0.0.0:${cs.get('PORT') || 5001}`,
+      credentials: !cs.get<boolean>('insecure')
+        ? ServerCredentials.createSsl(null, [
+            {
+              private_key: readFileSync(cs.get('USER_KEY')),
+              cert_chain: readFileSync(cs.get('USER_CERT')),
+            },
+          ])
+        : ServerCredentials.createInsecure(),
       loader: {
         includeDirs: [join(__dirname, '../proto')],
       },
@@ -42,6 +51,13 @@ export const authGrpcOptions = (cs: ConfigService): ClientProviderOptions => {
         // Allow keepalive pings when there are no gRPC calls.
         keepalivePermitWithoutCalls: 1,
       },
+      credentials: !cs.get<boolean>('insecure')
+        ? ChannelCredentials.createSsl(
+            readFileSync(cs.get('ROOT_CA')),
+            readFileSync(cs.get('USER_KEY')),
+            readFileSync(cs.get('USER_CERT')),
+          )
+        : ChannelCredentials.createInsecure(),
     },
   };
 };
