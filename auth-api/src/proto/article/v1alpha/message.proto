@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package article.v1alpha;
+
+message Article {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  string user_id = 7;
+}
+
+message ArticleWithComments {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  repeated Comment comments = 7;
+  string user_id = 8;
+}
+
+message Comment {
+  string id = 1;
+  string content = 2;
+  string created_at = 3;
+  string user_id = 4;
+  string article_id = 5;
+}
+
+enum EventType {
+  EVENT_TYPE_CLICK = 0;
+  EVENT_TYPE_CREATE = 1;
+  EVENT_TYPE_UPDATE = 2;
+  EVENT_TYPE_DELETE = 3;
+}

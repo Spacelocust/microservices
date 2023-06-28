@@ -137,3 +137,4 @@ proto-export:
 	$(BUFF) generate
 	$(BUFF) export . --output ../auth-api/src/proto
 	$(BUFF) export . --output ../user-api/src/proto
+	$(BUFF) export . --output ../article-api/src/proto

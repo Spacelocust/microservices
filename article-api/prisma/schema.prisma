@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["tracing"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id           Int      @id @default(autoincrement())
+  title        String
+  content      String
+  createdAt    DateTime @default(now())
+  updateddAt   DateTime @updatedAt
+  comments     Comment[]
+  userId       String
+}
+
+model Comment {
+  id           Int      @id @default(autoincrement())
+  content      String
+  createdAt    DateTime @default(now())
+  updateddAt   DateTime @updatedAt
+  article      Article  @relation(fields: [articleId], references: [id])
+  articleId    Int
+  userId       String
+}

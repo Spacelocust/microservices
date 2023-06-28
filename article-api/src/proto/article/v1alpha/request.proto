@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package article.v1alpha;
+
+import "article/v1alpha/message.proto";
+
+message AddCommentRequest {
+  string article_id = 1;
+  string user_id = 2;
+  string comment_content = 3;
+}
+
+message AddCommentResponse {
+  Comment comment = 1;
+}
+
+message RemoveCommentRequest {
+  string article_id = 1;
+  string content_id = 2;
+}
+
+message RemoveCommentResponse {
+  ArticleWithComments article = 1;
+}
+
+message UsingRequest {
+  string username = 1;
+  string article_id = 2;
+  EventType event_type = 3;
+}
+
+message UsingResponse {
+  string username = 1;
+  string article_id = 2;
+  EventType event_type = 3;
+}
+
+message UsingStreamRequest {}
+
+message UsingStreamResponse {
+  string username = 1;
+  string article_id = 2;
+  EventType event_type = 3;
+}
+
+message StreamArticlesRequest {}
+
+message StreamArticlesResponse {
+  Article article = 1;
+  string event_type = 2;
+}
+
+message ListArticlesRequest {
+  // The maximum number of items to return.
+  int32 page_size = 2;
+
+  // The next_page_token value returned from a previous List request, if any.
+  string page_token = 3;
+}
+
+message ListArticlesResponse {
+  // The field name should match the noun "Article" in the method name.
+  // There will be a maximum number of items returned based on the page_size field in the request.
+  repeated Article articles = 1;
+
+  // Token to retrieve the next page of results, or empty if there are no more results in the list.
+  string next_page_token = 2;
+}
+
+message GetArticleRequest {
+  // The field will contain name of the resource requested.
+  string id = 1;
+}
+
+message GetArticleResponse {
+  ArticleWithComments article = 1;
+}
+
+message CreateArticleRequest {
+  Article article = 1;
+}
+
+message CreateArticleResponse {
+  Article article  = 1;
+}
+
+message UpdateArticleRequest {
+  // The Article resource which replaces the resource on the server.
+  Article article = 1;
+}
+
+message UpdateArticleResponse {
+  Article article  = 1;
+}
+
+message DeleteArticleRequest {
+  // The resource name of the Article to be deleted.
+  string id = 1;
+}
+
+message DeleteArticleResponse {
+  Article article  = 1;
+}

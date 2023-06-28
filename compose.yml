@@ -78,6 +78,34 @@ services:
       timeout: 30s
       interval: 2s
       retries: 30
+  
+  article:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    container_name: mc-article
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "${ARTICLE_DB_URL:?err}"
+      AUTH_API_URL: "${AUTH_API_URL:?err}"
+      JAEGER_URL: "${JAEGER_URL:?err}"
+      JWT_SECRET: "${JWT_SECRET:?err}"
+      insecure: true
+      PORT: 4000
+    volumes:
+      - ./article-api:/home/node/api
+    stdin_open: true
+    tty: true
+    ports:
+      - 4000:4000
+    depends_on:
+      auth:
+        condition: service_healthy
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+      timeout: 30s
+      interval: 2s
+      retries: 30
 
   tracing:
     image: jaegertracing/all-in-one:1.8
