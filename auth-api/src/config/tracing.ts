@@ -1,5 +1,5 @@
 // import otel from '@opentelemetry/api';
-import { SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
 import process from 'process';
 import { GrpcInstrumentation } from '@opentelemetry/instrumentation-grpc';
@@ -16,16 +16,8 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 // } from '@opentelemetry/sdk-metrics';
 import { PrismaInstrumentation } from '@prisma/instrumentation';
 
-// import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
-// diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
-
-registerInstrumentations({
-  instrumentations: [
-    new WinstonInstrumentation(),
-    new GrpcInstrumentation(),
-    new PrismaInstrumentation(),
-  ],
-});
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 const resource = new Resource({
   [SemanticResourceAttributes.SERVICE_NAME]: `${process.env.npm_package_name}-${process.env.NODE_ENV}`,
@@ -56,9 +48,18 @@ const provider = new NodeTracerProvider({
 const exporter = new OTLPTraceExporter({
   url: process.env.JAEGER_URL || 'http://localhost:4318/v1/traces',
 });
-const spanProcessor = new SimpleSpanProcessor(exporter);
-provider.addSpanProcessor(spanProcessor as any);
+
+provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 provider.register();
+
+registerInstrumentations({
+  instrumentations: [
+    new WinstonInstrumentation(),
+    new GrpcInstrumentation(),
+    // new PrismaInstrumentation(),
+  ],
+});
 
 // // gracefully shut down the SDK on process exit
 process.on('SIGTERM', () => {

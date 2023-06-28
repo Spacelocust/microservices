@@ -16,7 +16,7 @@ export default (cs: ConfigService) =>
     transport: Transport.GRPC,
     options: {
       package: USER_V1ALPHA_PACKAGE_NAME,
-      url: `0.0.0.0:${cs.get('PORT') || 5001}`,
+      url: `0.0.0.0:${cs.get('PORT') || 4002}`,
       credentials: !cs.get<boolean>('insecure')
         ? ServerCredentials.createSsl(null, [
             {

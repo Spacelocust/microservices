@@ -34,14 +34,14 @@ services:
       ARTICLE_API_URL: "${ARTICLE_API_URL:?err}"
       JAEGER_URL: "${JAEGER_URL:?err}"
       JWT_SECRET: "${JWT_SECRET:?err}"
-      PORT: 5000
+      PORT: 4000
       insecure: true
     volumes:
       - ./auth-api:/home/node/api
     stdin_open: true
     tty: true
     ports:
-      - 5000:3000
+      - 4002:4000
     depends_on:
       user:
         condition: service_healthy
@@ -59,16 +59,17 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: "${USER_DB_URL:?err}"
+      AUTH_API_URL: "${AUTH_API_URL:?err}"
       JAEGER_URL: "${JAEGER_URL:?err}"
       JWT_SECRET: "${JWT_SECRET:?err}"
       insecure: true
-      PORT: 5001
+      PORT: 4000
     volumes:
       - ./user-api:/home/node/api
     stdin_open: true
     tty: true
     ports:
-      - 5001:3000
+      - 4001:4000
     depends_on:
       db:
         condition: service_healthy
@@ -79,17 +80,22 @@ services:
       retries: 30
 
   tracing:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/all-in-one:1.8
     container_name: mc-tracing
     environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
       - COLLECTOR_OTLP_ENABLED=true
     ports:
+      - 6832:6832/udp
+      - 6831:6831/udp
+      - 5778:5778
       - 16686:16686
-      - 14268:14268
+      - 4317:4317
       - 4318:4318
-    depends_on:
-      auth:
-        condition: service_healthy
+      - 14250:14250
+      - 14268:14268
+      - 14269:14269
+      - 9411:9411
 
   # mailer:
   #   build:

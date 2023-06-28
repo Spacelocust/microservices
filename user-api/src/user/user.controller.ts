@@ -30,7 +30,6 @@ export class UserController {
 
   @GrpcMethod('UserService')
   async Register(req: RegisterRequest): Promise<RegisterResponse> {
-    console.log("ici");
     try {
       const dto: CreateUserDto = await this.validateDto(req, CreateUserDto);
       const user = await this.userService.createUser(dto);

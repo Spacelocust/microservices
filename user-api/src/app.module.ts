@@ -13,6 +13,7 @@ import winstonConfig from './config/winston.config';
 const envSchema = Joi.object({
   DATABASE_URL: Joi.string().required(),
   PORT: Joi.number().default(5001),
+  AUTH_API_URL: Joi.string().required(),
   HEALTH_PORT: Joi.number().default(3000),
   insecure: Joi.boolean().default(true),
   JAEGER_URL: Joi.string().required(),
