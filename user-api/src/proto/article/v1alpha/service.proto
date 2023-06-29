@@ -10,16 +10,9 @@ service ArticleService {
   rpc CreateArticle(CreateArticleRequest) returns (CreateArticleResponse) {}
   rpc UpdateArticle(UpdateArticleRequest) returns (UpdateArticleResponse) {}
   rpc DeleteArticle(DeleteArticleRequest) returns (DeleteArticleResponse) {}
-
-  rpc StreamArticles(StreamArticlesRequest) returns (stream StreamArticlesResponse) {}
 }
 
 service CommentService {
   rpc AddComment(AddCommentRequest) returns (AddCommentResponse) {}
   rpc RemoveComment(RemoveCommentRequest) returns (RemoveCommentResponse) {}
-}
-
-service UsageService {
-  rpc Using(UsingRequest) returns (UsingResponse) {}
-  rpc UsingStream(UsingStreamRequest) returns (stream UsingStreamResponse) {}
 }

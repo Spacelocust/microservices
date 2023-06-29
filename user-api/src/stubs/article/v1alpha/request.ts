@@ -1,12 +1,11 @@
 /* eslint-disable */
-import { Article, ArticleWithComments, Comment, EventType } from "./message";
+import { Article, ArticleWithComments, Comment } from "./message";
 
 export const protobufPackage = "article.v1alpha";
 
 export interface AddCommentRequest {
   articleId?: string;
-  userId?: string;
-  commentContent?: string;
+  content?: string;
 }
 
 export interface AddCommentResponse {
@@ -14,41 +13,11 @@ export interface AddCommentResponse {
 }
 
 export interface RemoveCommentRequest {
-  articleId?: string;
-  contentId?: string;
+  id?: string;
 }
 
 export interface RemoveCommentResponse {
   article?: ArticleWithComments;
-}
-
-export interface UsingRequest {
-  username?: string;
-  articleId?: string;
-  eventType?: EventType;
-}
-
-export interface UsingResponse {
-  username?: string;
-  articleId?: string;
-  eventType?: EventType;
-}
-
-export interface UsingStreamRequest {
-}
-
-export interface UsingStreamResponse {
-  username?: string;
-  articleId?: string;
-  eventType?: EventType;
-}
-
-export interface StreamArticlesRequest {
-}
-
-export interface StreamArticlesResponse {
-  article?: Article;
-  eventType?: string;
 }
 
 export interface ListArticlesRequest {
@@ -69,7 +38,6 @@ export interface ListArticlesResponse {
 }
 
 export interface GetArticleRequest {
-  /** The field will contain name of the resource requested. */
   id?: string;
 }
 
@@ -78,7 +46,8 @@ export interface GetArticleResponse {
 }
 
 export interface CreateArticleRequest {
-  article?: Article;
+  title?: string;
+  content?: string;
 }
 
 export interface CreateArticleResponse {
@@ -86,8 +55,8 @@ export interface CreateArticleResponse {
 }
 
 export interface UpdateArticleRequest {
-  /** The Article resource which replaces the resource on the server. */
-  article?: Article;
+  title?: string;
+  content?: string;
 }
 
 export interface UpdateArticleResponse {
@@ -95,7 +64,6 @@ export interface UpdateArticleResponse {
 }
 
 export interface DeleteArticleRequest {
-  /** The resource name of the Article to be deleted. */
   id?: string;
 }
 

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from './primsa.service';
+import { PrismaService } from './prisma.service';
 import { UserModule } from './user/user.module';
 import { GrpcReflectionModule } from 'nestjs-grpc-reflection';
 import { ConfigModule, ConfigService } from '@nestjs/config';

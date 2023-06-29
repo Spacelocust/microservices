@@ -15,14 +15,8 @@ import {
   ListArticlesResponse,
   RemoveCommentRequest,
   RemoveCommentResponse,
-  StreamArticlesRequest,
-  StreamArticlesResponse,
   UpdateArticleRequest,
   UpdateArticleResponse,
-  UsingRequest,
-  UsingResponse,
-  UsingStreamRequest,
-  UsingStreamResponse,
 } from "./request";
 
 export const protobufPackage = "article.v1alpha";
@@ -39,8 +33,6 @@ export interface ArticleServiceClient {
   updateArticle(request: UpdateArticleRequest, metadata?: Metadata): Observable<UpdateArticleResponse>;
 
   deleteArticle(request: DeleteArticleRequest, metadata?: Metadata): Observable<DeleteArticleResponse>;
-
-  streamArticles(request: StreamArticlesRequest, metadata?: Metadata): Observable<StreamArticlesResponse>;
 }
 
 export interface ArticleServiceController {
@@ -68,20 +60,11 @@ export interface ArticleServiceController {
     request: DeleteArticleRequest,
     metadata?: Metadata,
   ): Promise<DeleteArticleResponse> | Observable<DeleteArticleResponse> | DeleteArticleResponse;
-
-  streamArticles(request: StreamArticlesRequest, metadata?: Metadata): Observable<StreamArticlesResponse>;
 }
 
 export function ArticleServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = [
-      "listArticles",
-      "getArticle",
-      "createArticle",
-      "updateArticle",
-      "deleteArticle",
-      "streamArticles",
-    ];
+    const grpcMethods: string[] = ["listArticles", "getArticle", "createArticle", "updateArticle", "deleteArticle"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("ArticleService", method)(constructor.prototype[method], method, descriptor);
@@ -130,32 +113,3 @@ export function CommentServiceControllerMethods() {
 }
 
 export const COMMENT_SERVICE_NAME = "CommentService";
-
-export interface UsageServiceClient {
-  using(request: UsingRequest, metadata?: Metadata): Observable<UsingResponse>;
-
-  usingStream(request: UsingStreamRequest, metadata?: Metadata): Observable<UsingStreamResponse>;
-}
-
-export interface UsageServiceController {
-  using(request: UsingRequest, metadata?: Metadata): Promise<UsingResponse> | Observable<UsingResponse> | UsingResponse;
-
-  usingStream(request: UsingStreamRequest, metadata?: Metadata): Observable<UsingStreamResponse>;
-}
-
-export function UsageServiceControllerMethods() {
-  return function (constructor: Function) {
-    const grpcMethods: string[] = ["using", "usingStream"];
-    for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("UsageService", method)(constructor.prototype[method], method, descriptor);
-    }
-    const grpcStreamMethods: string[] = [];
-    for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("UsageService", method)(constructor.prototype[method], method, descriptor);
-    }
-  };
-}
-
-export const USAGE_SERVICE_NAME = "UsageService";
