@@ -108,7 +108,7 @@ services:
       retries: 30
 
   tracing:
-    image: jaegertracing/all-in-one:1.8
+    image: jaegertracing/all-in-one
     container_name: mc-tracing
     environment:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411

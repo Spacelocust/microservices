@@ -129,4 +129,6 @@ dist
 .pnp.*
 
 
-data/*
+data
+
+.pnpm-store

@@ -6,12 +6,14 @@ trap "exit" SIGTERM
 
 echo "Installing dependencies"
 
-yarn install
+pnpm install
 
-echo "Migrations launch"
+pnpm add -g @nestjs/cli
 
-yarn prisma migrate dev
+echo "Launching migrations"
+
+pnpm prisma migrate dev
 
 echo "Starting Auth server"
 
-yarn start:dev
+pnpm start:dev
