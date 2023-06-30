@@ -21,21 +21,10 @@ message RemoveCommentResponse {
   ArticleWithComments article = 1;
 }
 
-message ListArticlesRequest {
-  // The maximum number of items to return.
-  int32 page_size = 2;
-
-  // The next_page_token value returned from a previous List request, if any.
-  string page_token = 3;
-}
+message ListArticlesRequest {}
 
 message ListArticlesResponse {
-  // The field name should match the noun "Article" in the method name.
-  // There will be a maximum number of items returned based on the page_size field in the request.
   repeated Article articles = 1;
-
-  // Token to retrieve the next page of results, or empty if there are no more results in the list.
-  string next_page_token = 2;
 }
 
 message GetArticleRequest {

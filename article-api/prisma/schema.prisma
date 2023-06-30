@@ -15,18 +15,18 @@ model Article {
   id           Int      @id @default(autoincrement())
   title        String
   content      String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now()) @db.Timestamp(3)
+  updatedAt    DateTime @updatedAt @db.Timestamp(3)
   comments     Comment[]
-  userId       String
+  userId       Int
 }
 
 model Comment {
   id           Int      @id @default(autoincrement())
   content      String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now()) @db.Timestamp(3)
+  updatedAt    DateTime @updatedAt @db.Timestamp(3)
   article      Article  @relation(fields: [articleId], references: [id])
   articleId    Int
-  userId       String
+  userId       Int
 }

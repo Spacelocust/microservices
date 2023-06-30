@@ -21,20 +21,10 @@ export interface RemoveCommentResponse {
 }
 
 export interface ListArticlesRequest {
-  /** The maximum number of items to return. */
-  pageSize?: number;
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
 }
 
 export interface ListArticlesResponse {
-  /**
-   * The field name should match the noun "Article" in the method name.
-   * There will be a maximum number of items returned based on the page_size field in the request.
-   */
   articles?: Article[];
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
 }
 
 export interface GetArticleRequest {

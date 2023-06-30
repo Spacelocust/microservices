@@ -4,16 +4,16 @@ import { Timestamp } from "../../google/protobuf/timestamp";
 export const protobufPackage = "article.v1alpha";
 
 export interface Article {
-  id?: string;
+  id?: number;
   title?: string;
   content?: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
-  userId?: string;
+  userId?: number;
 }
 
 export interface ArticleWithComments {
-  id?: string;
+  id?: number;
   title?: string;
   content?: string;
   createdAt?: Timestamp;
@@ -23,11 +23,11 @@ export interface ArticleWithComments {
 }
 
 export interface Comment {
-  id?: string;
+  id?: number;
   content?: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
-  userId?: string;
+  userId?: number;
 }
 
 export const ARTICLE_V1ALPHA_PACKAGE_NAME = "article.v1alpha";
