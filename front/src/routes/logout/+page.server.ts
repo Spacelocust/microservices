@@ -7,6 +7,6 @@ export const actions = {
     cookies.delete('token');
     cookies.delete('refreshToken');
 
-    throw redirect(303, '/login', { type: 'success', message: 'You are now logged out.' }, event);
+    throw redirect(303, '/login', { type: 'info', message: 'You are now logged out.' }, event);
   },
 };

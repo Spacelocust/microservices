@@ -21,7 +21,7 @@ const error = (m: string) =>
 const info = (m: string) =>
   defaultToast.push(m, {
     theme: {
-      '--toastBackground': 'blue',
+      '--toastBackground': 'cadetblue',
       '--toastColor': 'white',
       '--toastBarBackground': 'white',
     },
