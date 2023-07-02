@@ -11,9 +11,12 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+        working-directory: front
 
       - name: Generate SvelteKit types
         run: yarn check
+        working-directory: front
 
       - name: Run ESLint (includes Prettier)
         run: yarn lint
+        working-directory: front
