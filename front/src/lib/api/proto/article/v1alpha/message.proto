@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package article.v1alpha;
+
+import "google/protobuf/timestamp.proto";
+
+message Article {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+
+  int32 user_id = 6;
+}
+
+message ArticleWithComments {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+
+  repeated Comment comments = 7;
+
+  string user_id = 8;
+}
+
+message Comment {
+  int32 id = 1;
+  string content = 2;
+
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+
+  int32 user_id = 5;
+}

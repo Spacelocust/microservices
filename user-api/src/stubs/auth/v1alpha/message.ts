@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { User, UserRole } from "../../user/v1alpha/message";
+import { User } from "../../user/v1alpha/message";
 
 export const protobufPackage = "auth.v1alpha";
 
@@ -32,7 +32,7 @@ export interface RefreshTokenRequest {
 export interface RefreshTokenResponse {
   refreshToken?: string;
   jwt?: string;
-  userId?: string;
+  user?: User;
 }
 
 export interface ValidateRequest {
@@ -42,9 +42,7 @@ export interface ValidateRequest {
 
 export interface ValidateResponse {
   ok?: boolean;
-  userId?: string;
-  userEmail?: string;
-  userRole?: UserRole;
+  user?: User;
   internal?: boolean;
 }
 

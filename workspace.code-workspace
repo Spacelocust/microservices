@@ -1,0 +1,92 @@
+{
+    "folders": [
+        {
+            "name": "Article API",
+            "path": "article-api"
+        },
+        {
+            "name": "Auth API",
+            "path": "auth-api"
+        },
+        {
+            "name": "User API",
+            "path": "user-api"
+        },
+        {
+            "name": "Front",
+            "path": "front"
+        },
+        {
+            "name": "Proto",
+            "path": "proto"
+        },
+        {
+            "name": "Root",
+            "path": "./",
+        },
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/Thumbs.db": true,
+            "article-api": true,
+            "auth-api": true,
+            "user-api": true,
+            "front": true,
+            "proto": true,
+        },
+        "prettier.documentSelectors": ["**/*.svelte"],
+        "svelte.enable-ts-plugin": true,
+        "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+        "[dockercompose]": {
+            "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+        },
+        "[dockerfile]": {
+            "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+        },
+        "[html]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+        },
+        "[json]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[markdown]": {
+            "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+            "editor.wordWrap": "off",
+            "editor.wordWrapColumn": 300
+        },
+        "[sass]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[scss]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[svelte]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+            "editor.formatOnSave": true
+        },
+        "[typescript]": {
+            "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+            "editor.detectIndentation": false,
+            "editor.insertSpaces": true,
+            "editor.tabSize": 2
+        },
+        "eslint.options": {
+            "extensions": [".js", ".ts", ".svelte"]
+        },
+        "eslint.probe": ["javascript", "typescript", "html", "markdown", "svelte"],
+        "eslint.validate": ["javascript", "svelte"],
+        "prettier.requireConfig": true,
+        "typescript.tsdk": "Front/node_modules/typescript/lib"
+    }
+}

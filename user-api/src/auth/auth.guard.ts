@@ -46,7 +46,7 @@ export class GrpcAuthGuard implements CanActivate {
         return true;
       }
 
-      if (roles && !roles.includes(res.userRole)) {
+      if (roles && !roles.includes(res.user.role)) {
         throw new RpcException({
           code: status.PERMISSION_DENIED,
           message: `authorized roles : ${roles.join(', ')}`,
@@ -54,9 +54,9 @@ export class GrpcAuthGuard implements CanActivate {
       }
 
       request.user = {
-        id: res.userId,
-        email: res.userEmail,
-        role: res.userRole,
+        id: res.user.id,
+        email: res.user.email,
+        role: res.user.role,
       };
 
       return true;

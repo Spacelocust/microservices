@@ -20,3 +20,5 @@ plugins:
       - addGrpcMetadata=true
       - nestJs=true
       - useOptionals=all
+  - plugin: buf.build/community/timostamm-protobuf-ts
+    out: ../front/src/lib/api/stubs

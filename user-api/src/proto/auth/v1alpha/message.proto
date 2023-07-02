@@ -31,7 +31,7 @@ message RefreshTokenRequest {
 message RefreshTokenResponse {
   string refresh_token = 1;
   string jwt = 2;
-  string user_id = 3;
+  user.v1alpha.User user = 3;
 }
 
 message ValidateRequest {
@@ -41,8 +41,6 @@ message ValidateRequest {
 
 message ValidateResponse {
   bool ok = 1;
-  string userId = 2;
-  string userEmail = 3;
-  user.v1alpha.UserRole userRole = 4;
-  bool internal = 5;
+  user.v1alpha.User user = 2;
+  bool internal = 3;
 }

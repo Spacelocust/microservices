@@ -4,12 +4,10 @@
 trap "exit" SIGINT
 trap "exit" SIGTERM
 
-# echo "Installing dependencies"
+echo "Installing dependencies"
 
-# yarn install
+yarn install
 
-# echo "Starting SvelteKit server"
+echo "Starting SvelteKit server"
 
-# yarn dev
-
-tail -f /dev/null
+yarn dev

@@ -78,7 +78,7 @@ services:
       timeout: 30s
       interval: 2s
       retries: 30
-  
+
   article:
     build:
       context: .
@@ -172,7 +172,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped
-    container_name: su-phpmyadmin
+    container_name: mc-phpmyadmin
     ports:
       - 8080:80
     depends_on:
