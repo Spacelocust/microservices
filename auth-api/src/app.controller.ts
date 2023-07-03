@@ -93,7 +93,7 @@ export class AppController implements AuthServiceController {
       return {
         refreshToken: undefined,
         jwt: this.jwtService.sign({ user }),
-        userId: user.id,
+        user,
       };
     } catch (error) {
       this.logger.error(error);
@@ -120,9 +120,7 @@ export class AppController implements AuthServiceController {
 
       return {
         ok: true,
-        userId: user?.id,
-        userEmail: user?.email,
-        userRole: user?.role,
+        user,
         internal: internal,
       };
     } catch (error) {

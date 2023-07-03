@@ -1,0 +1,22 @@
+name: Code linting
+
+on: [pull_request]
+
+jobs:
+  eslint-front:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: front
+
+      - name: Generate SvelteKit types
+        run: yarn check
+        working-directory: front
+
+      - name: Run ESLint (includes Prettier)
+        run: yarn lint
+        working-directory: front

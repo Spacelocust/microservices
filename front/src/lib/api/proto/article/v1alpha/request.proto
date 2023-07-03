@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package article.v1alpha;
+
+import "article/v1alpha/message.proto";
+
+message AddCommentRequest {
+  string article_id = 1;
+  string content = 2;
+}
+
+message AddCommentResponse {
+  Comment comment = 1;
+}
+
+message RemoveCommentRequest {
+  string id = 1;
+}
+
+message RemoveCommentResponse {
+  ArticleWithComments article = 1;
+}
+
+message ListArticlesRequest {}
+
+message ListArticlesResponse {
+  repeated Article articles = 1;
+}
+
+message GetArticleRequest {
+  string id = 1;
+}
+
+message GetArticleResponse {
+  ArticleWithComments article = 1;
+}
+
+message CreateArticleRequest {
+  string title = 1;
+  string content = 2;
+}
+
+message CreateArticleResponse {
+  Article article  = 1;
+}
+
+message UpdateArticleRequest {
+  string title = 1;
+  string content = 2;
+}
+
+message UpdateArticleResponse {
+  Article article  = 1;
+}
+
+message DeleteArticleRequest {
+  string id = 1;
+}
+
+message DeleteArticleResponse {
+  Article article  = 1;
+}

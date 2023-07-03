@@ -37,6 +37,7 @@ export class UserService {
     if ((await this.users({})).length === 0) {
       data.role = Role.ADMIN;
     }
+
     return this.prisma.user.create({
       data,
     });

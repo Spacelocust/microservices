@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package article.v1alpha;
+
+import "article/v1alpha/request.proto";
+
+service ArticleService {
+  rpc ListArticles(ListArticlesRequest) returns (ListArticlesResponse) {}
+  rpc GetArticle(GetArticleRequest) returns (GetArticleResponse) {}
+  rpc CreateArticle(CreateArticleRequest) returns (CreateArticleResponse) {}
+  rpc UpdateArticle(UpdateArticleRequest) returns (UpdateArticleResponse) {}
+  rpc DeleteArticle(DeleteArticleRequest) returns (DeleteArticleResponse) {}
+}
+
+service CommentService {
+  rpc AddComment(AddCommentRequest) returns (AddCommentResponse) {}
+  rpc RemoveComment(RemoveCommentRequest) returns (RemoveCommentResponse) {}
+}
