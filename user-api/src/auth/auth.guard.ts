@@ -31,7 +31,7 @@ export class GrpcAuthGuard implements CanActivate {
       }
 
       if (!header || !header.includes(prefix)) {
-        throw new Error('header malformed');
+        throw new Error('Token or missing header');
       }
 
       const token = header.slice(header.indexOf(' ') + 1);

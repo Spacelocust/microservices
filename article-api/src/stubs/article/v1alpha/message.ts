@@ -19,7 +19,7 @@ export interface ArticleWithComments {
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
   comments?: Comment[];
-  userId?: string;
+  userId?: number;
 }
 
 export interface Comment {

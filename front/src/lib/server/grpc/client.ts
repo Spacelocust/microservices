@@ -9,14 +9,14 @@ import { env } from '$env/dynamic/private';
 export const credentials = ChannelCredentials.createInsecure();
 
 const userTransport = new GrpcTransport({
-  host: env.USER_API_URL,
+  host: env.USER_API_URL as string,
   channelCredentials: credentials,
 });
 
 export const userClient = new UserServiceClient(userTransport);
 
 const authTransport = new GrpcTransport({
-  host: env.AUTH_API_URL,
+  host: env.AUTH_API_URL as string,
   channelCredentials: credentials,
 });
 

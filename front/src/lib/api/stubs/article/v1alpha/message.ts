@@ -70,9 +70,9 @@ export interface ArticleWithComments {
      */
     comments: Comment[];
     /**
-     * @generated from protobuf field: string user_id = 8;
+     * @generated from protobuf field: int32 user_id = 8;
      */
-    userId: string;
+    userId: number;
 }
 /**
  * @generated from protobuf message article.v1alpha.Comment
@@ -191,11 +191,11 @@ class ArticleWithComments$Type extends MessageType<ArticleWithComments> {
             { no: 4, name: "created_at", kind: "message", T: () => Timestamp },
             { no: 5, name: "updated_at", kind: "message", T: () => Timestamp },
             { no: 7, name: "comments", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Comment },
-            { no: 8, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 8, name: "user_id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<ArticleWithComments>): ArticleWithComments {
-        const message = { id: 0, title: "", content: "", comments: [], userId: "" };
+        const message = { id: 0, title: "", content: "", comments: [], userId: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<ArticleWithComments>(this, message, value);
@@ -224,8 +224,8 @@ class ArticleWithComments$Type extends MessageType<ArticleWithComments> {
                 case /* repeated article.v1alpha.Comment comments */ 7:
                     message.comments.push(Comment.internalBinaryRead(reader, reader.uint32(), options));
                     break;
-                case /* string user_id */ 8:
-                    message.userId = reader.string();
+                case /* int32 user_id */ 8:
+                    message.userId = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -257,9 +257,9 @@ class ArticleWithComments$Type extends MessageType<ArticleWithComments> {
         /* repeated article.v1alpha.Comment comments = 7; */
         for (let i = 0; i < message.comments.length; i++)
             Comment.internalBinaryWrite(message.comments[i], writer.tag(7, WireType.LengthDelimited).fork(), options).join();
-        /* string user_id = 8; */
-        if (message.userId !== "")
-            writer.tag(8, WireType.LengthDelimited).string(message.userId);
+        /* int32 user_id = 8; */
+        if (message.userId !== 0)
+            writer.tag(8, WireType.Varint).int32(message.userId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

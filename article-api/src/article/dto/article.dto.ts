@@ -1,4 +1,4 @@
-import { Length } from "class-validator";
+import { IsInt, Length } from "class-validator";
 
 export class CreateArticleDto {
   @Length(4, 20)
@@ -9,6 +9,9 @@ export class CreateArticleDto {
 }
 
 export class UpdateArticleDto {
+  @IsInt()
+  id: number;
+
   @Length(4, 20)
   title?: string;
 

@@ -2,6 +2,8 @@
 // @generated from protobuf file "article/v1alpha/service.proto" (package "article.v1alpha", syntax proto3)
 // tslint:disable
 import { CommentService } from "./service";
+import type { UpdateCommentResponse } from "./request";
+import type { UpdateCommentRequest } from "./request";
 import type { RemoveCommentResponse } from "./request";
 import type { RemoveCommentRequest } from "./request";
 import type { AddCommentResponse } from "./request";
@@ -104,6 +106,10 @@ export interface ICommentServiceClient {
      * @generated from protobuf rpc: RemoveComment(article.v1alpha.RemoveCommentRequest) returns (article.v1alpha.RemoveCommentResponse);
      */
     removeComment(input: RemoveCommentRequest, options?: RpcOptions): UnaryCall<RemoveCommentRequest, RemoveCommentResponse>;
+    /**
+     * @generated from protobuf rpc: UpdateComment(article.v1alpha.UpdateCommentRequest) returns (article.v1alpha.UpdateCommentResponse);
+     */
+    updateComment(input: UpdateCommentRequest, options?: RpcOptions): UnaryCall<UpdateCommentRequest, UpdateCommentResponse>;
 }
 /**
  * @generated from protobuf service article.v1alpha.CommentService
@@ -127,5 +133,12 @@ export class CommentServiceClient implements ICommentServiceClient, ServiceInfo 
     removeComment(input: RemoveCommentRequest, options?: RpcOptions): UnaryCall<RemoveCommentRequest, RemoveCommentResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<RemoveCommentRequest, RemoveCommentResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: UpdateComment(article.v1alpha.UpdateCommentRequest) returns (article.v1alpha.UpdateCommentResponse);
+     */
+    updateComment(input: UpdateCommentRequest, options?: RpcOptions): UnaryCall<UpdateCommentRequest, UpdateCommentResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<UpdateCommentRequest, UpdateCommentResponse>("unary", this._transport, method, opt, input);
     }
 }

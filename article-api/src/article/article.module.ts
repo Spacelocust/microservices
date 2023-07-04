@@ -8,7 +8,7 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [AuthModule],
   controllers: [ArticleController],
-  providers: [ArticleService, PrismaService],
+  providers: [ArticleService, CommentService, PrismaService],
   exports: [ArticleService, CommentService],
 })
 export class ArticleModule {}

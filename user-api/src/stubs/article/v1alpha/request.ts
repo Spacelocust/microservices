@@ -4,7 +4,7 @@ import { Article, ArticleWithComments, Comment } from "./message";
 export const protobufPackage = "article.v1alpha";
 
 export interface AddCommentRequest {
-  articleId?: string;
+  articleId?: number;
   content?: string;
 }
 
@@ -13,11 +13,20 @@ export interface AddCommentResponse {
 }
 
 export interface RemoveCommentRequest {
-  id?: string;
+  id?: number;
 }
 
 export interface RemoveCommentResponse {
-  article?: ArticleWithComments;
+  comment?: Comment;
+}
+
+export interface UpdateCommentRequest {
+  id?: number;
+  content?: string;
+}
+
+export interface UpdateCommentResponse {
+  comment?: Comment;
 }
 
 export interface ListArticlesRequest {
@@ -28,7 +37,7 @@ export interface ListArticlesResponse {
 }
 
 export interface GetArticleRequest {
-  id?: string;
+  id?: number;
 }
 
 export interface GetArticleResponse {
@@ -45,6 +54,7 @@ export interface CreateArticleResponse {
 }
 
 export interface UpdateArticleRequest {
+  id?: number;
   title?: string;
   content?: string;
 }
@@ -54,7 +64,7 @@ export interface UpdateArticleResponse {
 }
 
 export interface DeleteArticleRequest {
-  id?: string;
+  id?: number;
 }
 
 export interface DeleteArticleResponse {

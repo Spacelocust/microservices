@@ -31,7 +31,7 @@ export class GrpcAuthGuard implements CanActivate {
       }
 
       if (!header || !header.includes(prefix)) {
-        throw new Error('header malformed');
+        throw new Error('Token or missing header');
       }
 
       const token = header.slice(header.indexOf(' ') + 1);
@@ -54,7 +54,7 @@ export class GrpcAuthGuard implements CanActivate {
       }
 
       request.user = {
-        id: res.user.id,
+        id: +res.user.id,
         email: res.user.email,
         role: res.user.role,
       };

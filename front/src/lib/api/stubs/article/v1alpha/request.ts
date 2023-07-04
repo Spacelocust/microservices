@@ -11,17 +11,17 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MESSAGE_TYPE } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Article } from "./message";
 import { ArticleWithComments } from "./message";
+import { Article } from "./message";
 import { Comment } from "./message";
 /**
  * @generated from protobuf message article.v1alpha.AddCommentRequest
  */
 export interface AddCommentRequest {
     /**
-     * @generated from protobuf field: string article_id = 1;
+     * @generated from protobuf field: int32 article_id = 1;
      */
-    articleId: string;
+    articleId: number;
     /**
      * @generated from protobuf field: string content = 2;
      */
@@ -41,18 +41,40 @@ export interface AddCommentResponse {
  */
 export interface RemoveCommentRequest {
     /**
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: int32 id = 1;
      */
-    id: string;
+    id: number;
 }
 /**
  * @generated from protobuf message article.v1alpha.RemoveCommentResponse
  */
 export interface RemoveCommentResponse {
     /**
-     * @generated from protobuf field: article.v1alpha.ArticleWithComments article = 1;
+     * @generated from protobuf field: article.v1alpha.Comment comment = 1;
      */
-    article?: ArticleWithComments;
+    comment?: Comment;
+}
+/**
+ * @generated from protobuf message article.v1alpha.UpdateCommentRequest
+ */
+export interface UpdateCommentRequest {
+    /**
+     * @generated from protobuf field: int32 id = 1;
+     */
+    id: number;
+    /**
+     * @generated from protobuf field: string content = 2;
+     */
+    content: string;
+}
+/**
+ * @generated from protobuf message article.v1alpha.UpdateCommentResponse
+ */
+export interface UpdateCommentResponse {
+    /**
+     * @generated from protobuf field: article.v1alpha.Comment comment = 1;
+     */
+    comment?: Comment;
 }
 /**
  * @generated from protobuf message article.v1alpha.ListArticlesRequest
@@ -73,9 +95,9 @@ export interface ListArticlesResponse {
  */
 export interface GetArticleRequest {
     /**
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: int32 id = 1;
      */
-    id: string;
+    id: number;
 }
 /**
  * @generated from protobuf message article.v1alpha.GetArticleResponse
@@ -113,11 +135,15 @@ export interface CreateArticleResponse {
  */
 export interface UpdateArticleRequest {
     /**
-     * @generated from protobuf field: string title = 1;
+     * @generated from protobuf field: int32 id = 1;
+     */
+    id: number;
+    /**
+     * @generated from protobuf field: string title = 2;
      */
     title: string;
     /**
-     * @generated from protobuf field: string content = 2;
+     * @generated from protobuf field: string content = 3;
      */
     content: string;
 }
@@ -135,9 +161,9 @@ export interface UpdateArticleResponse {
  */
 export interface DeleteArticleRequest {
     /**
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: int32 id = 1;
      */
-    id: string;
+    id: number;
 }
 /**
  * @generated from protobuf message article.v1alpha.DeleteArticleResponse
@@ -152,12 +178,12 @@ export interface DeleteArticleResponse {
 class AddCommentRequest$Type extends MessageType<AddCommentRequest> {
     constructor() {
         super("article.v1alpha.AddCommentRequest", [
-            { no: 1, name: "article_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "article_id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<AddCommentRequest>): AddCommentRequest {
-        const message = { articleId: "", content: "" };
+        const message = { articleId: 0, content: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<AddCommentRequest>(this, message, value);
@@ -168,8 +194,8 @@ class AddCommentRequest$Type extends MessageType<AddCommentRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string article_id */ 1:
-                    message.articleId = reader.string();
+                case /* int32 article_id */ 1:
+                    message.articleId = reader.int32();
                     break;
                 case /* string content */ 2:
                     message.content = reader.string();
@@ -186,9 +212,9 @@ class AddCommentRequest$Type extends MessageType<AddCommentRequest> {
         return message;
     }
     internalBinaryWrite(message: AddCommentRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string article_id = 1; */
-        if (message.articleId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.articleId);
+        /* int32 article_id = 1; */
+        if (message.articleId !== 0)
+            writer.tag(1, WireType.Varint).int32(message.articleId);
         /* string content = 2; */
         if (message.content !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.content);
@@ -253,11 +279,11 @@ export const AddCommentResponse = new AddCommentResponse$Type();
 class RemoveCommentRequest$Type extends MessageType<RemoveCommentRequest> {
     constructor() {
         super("article.v1alpha.RemoveCommentRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<RemoveCommentRequest>): RemoveCommentRequest {
-        const message = { id: "" };
+        const message = { id: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<RemoveCommentRequest>(this, message, value);
@@ -268,8 +294,8 @@ class RemoveCommentRequest$Type extends MessageType<RemoveCommentRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -283,9 +309,9 @@ class RemoveCommentRequest$Type extends MessageType<RemoveCommentRequest> {
         return message;
     }
     internalBinaryWrite(message: RemoveCommentRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -300,7 +326,7 @@ export const RemoveCommentRequest = new RemoveCommentRequest$Type();
 class RemoveCommentResponse$Type extends MessageType<RemoveCommentResponse> {
     constructor() {
         super("article.v1alpha.RemoveCommentResponse", [
-            { no: 1, name: "article", kind: "message", T: () => ArticleWithComments }
+            { no: 1, name: "comment", kind: "message", T: () => Comment }
         ]);
     }
     create(value?: PartialMessage<RemoveCommentResponse>): RemoveCommentResponse {
@@ -315,8 +341,8 @@ class RemoveCommentResponse$Type extends MessageType<RemoveCommentResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* article.v1alpha.ArticleWithComments article */ 1:
-                    message.article = ArticleWithComments.internalBinaryRead(reader, reader.uint32(), options, message.article);
+                case /* article.v1alpha.Comment comment */ 1:
+                    message.comment = Comment.internalBinaryRead(reader, reader.uint32(), options, message.comment);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -330,9 +356,9 @@ class RemoveCommentResponse$Type extends MessageType<RemoveCommentResponse> {
         return message;
     }
     internalBinaryWrite(message: RemoveCommentResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* article.v1alpha.ArticleWithComments article = 1; */
-        if (message.article)
-            ArticleWithComments.internalBinaryWrite(message.article, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* article.v1alpha.Comment comment = 1; */
+        if (message.comment)
+            Comment.internalBinaryWrite(message.comment, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -343,6 +369,107 @@ class RemoveCommentResponse$Type extends MessageType<RemoveCommentResponse> {
  * @generated MessageType for protobuf message article.v1alpha.RemoveCommentResponse
  */
 export const RemoveCommentResponse = new RemoveCommentResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateCommentRequest$Type extends MessageType<UpdateCommentRequest> {
+    constructor() {
+        super("article.v1alpha.UpdateCommentRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateCommentRequest>): UpdateCommentRequest {
+        const message = { id: 0, content: "" };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateCommentRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateCommentRequest): UpdateCommentRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
+                    break;
+                case /* string content */ 2:
+                    message.content = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateCommentRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
+        /* string content = 2; */
+        if (message.content !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.content);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message article.v1alpha.UpdateCommentRequest
+ */
+export const UpdateCommentRequest = new UpdateCommentRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateCommentResponse$Type extends MessageType<UpdateCommentResponse> {
+    constructor() {
+        super("article.v1alpha.UpdateCommentResponse", [
+            { no: 1, name: "comment", kind: "message", T: () => Comment }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateCommentResponse>): UpdateCommentResponse {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateCommentResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateCommentResponse): UpdateCommentResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* article.v1alpha.Comment comment */ 1:
+                    message.comment = Comment.internalBinaryRead(reader, reader.uint32(), options, message.comment);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateCommentResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* article.v1alpha.Comment comment = 1; */
+        if (message.comment)
+            Comment.internalBinaryWrite(message.comment, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message article.v1alpha.UpdateCommentResponse
+ */
+export const UpdateCommentResponse = new UpdateCommentResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListArticlesRequest$Type extends MessageType<ListArticlesRequest> {
     constructor() {
@@ -420,11 +547,11 @@ export const ListArticlesResponse = new ListArticlesResponse$Type();
 class GetArticleRequest$Type extends MessageType<GetArticleRequest> {
     constructor() {
         super("article.v1alpha.GetArticleRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<GetArticleRequest>): GetArticleRequest {
-        const message = { id: "" };
+        const message = { id: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<GetArticleRequest>(this, message, value);
@@ -435,8 +562,8 @@ class GetArticleRequest$Type extends MessageType<GetArticleRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -450,9 +577,9 @@ class GetArticleRequest$Type extends MessageType<GetArticleRequest> {
         return message;
     }
     internalBinaryWrite(message: GetArticleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -615,12 +742,13 @@ export const CreateArticleResponse = new CreateArticleResponse$Type();
 class UpdateArticleRequest$Type extends MessageType<UpdateArticleRequest> {
     constructor() {
         super("article.v1alpha.UpdateArticleRequest", [
-            { no: 1, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UpdateArticleRequest>): UpdateArticleRequest {
-        const message = { title: "", content: "" };
+        const message = { id: 0, title: "", content: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UpdateArticleRequest>(this, message, value);
@@ -631,10 +759,13 @@ class UpdateArticleRequest$Type extends MessageType<UpdateArticleRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string title */ 1:
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
+                    break;
+                case /* string title */ 2:
                     message.title = reader.string();
                     break;
-                case /* string content */ 2:
+                case /* string content */ 3:
                     message.content = reader.string();
                     break;
                 default:
@@ -649,12 +780,15 @@ class UpdateArticleRequest$Type extends MessageType<UpdateArticleRequest> {
         return message;
     }
     internalBinaryWrite(message: UpdateArticleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string title = 1; */
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
+        /* string title = 2; */
         if (message.title !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.title);
-        /* string content = 2; */
+            writer.tag(2, WireType.LengthDelimited).string(message.title);
+        /* string content = 3; */
         if (message.content !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.content);
+            writer.tag(3, WireType.LengthDelimited).string(message.content);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -716,11 +850,11 @@ export const UpdateArticleResponse = new UpdateArticleResponse$Type();
 class DeleteArticleRequest$Type extends MessageType<DeleteArticleRequest> {
     constructor() {
         super("article.v1alpha.DeleteArticleRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<DeleteArticleRequest>): DeleteArticleRequest {
-        const message = { id: "" };
+        const message = { id: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<DeleteArticleRequest>(this, message, value);
@@ -731,8 +865,8 @@ class DeleteArticleRequest$Type extends MessageType<DeleteArticleRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -746,9 +880,9 @@ class DeleteArticleRequest$Type extends MessageType<DeleteArticleRequest> {
         return message;
     }
     internalBinaryWrite(message: DeleteArticleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

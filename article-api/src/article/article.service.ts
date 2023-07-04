@@ -2,13 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { Article, Prisma } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
 
+type ArticleWithComments = Prisma.ArticleGetPayload<{ include: { comments: true } }>
+
 @Injectable()
 export class ArticleService {
   constructor(private prisma: PrismaService) {}
 
-  async find(where: Prisma.ArticleWhereUniqueInput): Promise<Article|null> {
-    return this.prisma.article.findUnique({
-      where
+  async find(where: Prisma.ArticleWhereUniqueInput): Promise<ArticleWithComments> {
+    return this.prisma.article.findUniqueOrThrow({
+      where,
+      include: {
+        comments: true,
+      }
     });
   }
 
@@ -28,8 +33,8 @@ export class ArticleService {
   }
 
   async update(params: {
-    data: Prisma.ArticleCreateInput,
-    where: Prisma.ArticleWhereUniqueInput
+    data: Prisma.ArticleUpdateInput,
+    where: Prisma.ArticleWhereUniqueInput,
   }): Promise<Article> {
     const { data, where } = params;
     return this.prisma.article.update({

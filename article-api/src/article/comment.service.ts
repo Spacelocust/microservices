@@ -23,7 +23,7 @@ export class CommentService {
     });
   }
 
-  async deleteUser(where: Prisma.CommentWhereUniqueInput): Promise<Comment> {
+  async delete(where: Prisma.CommentWhereUniqueInput): Promise<Comment> {
     return this.prisma.comment.delete({
       where,
     });

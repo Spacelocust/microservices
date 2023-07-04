@@ -15,4 +15,5 @@ service ArticleService {
 service CommentService {
   rpc AddComment(AddCommentRequest) returns (AddCommentResponse) {}
   rpc RemoveComment(RemoveCommentRequest) returns (RemoveCommentResponse) {}
+  rpc UpdateComment(UpdateCommentRequest) returns (UpdateCommentResponse) {}
 }

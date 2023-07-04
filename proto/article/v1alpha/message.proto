@@ -25,7 +25,7 @@ message ArticleWithComments {
 
   repeated Comment comments = 7;
 
-  string user_id = 8;
+  int32 user_id = 8;
 }
 
 message Comment {

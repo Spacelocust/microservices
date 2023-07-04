@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import grpcOption from './config/grpc.option';
 import { WinstonModule } from 'nest-winston';
 import winstonConfig from './config/winston.config';
+import { ArticleModule } from './article/article.module';
 
 const envSchema = Joi.object({
   DATABASE_URL: Joi.string().required(),
@@ -34,6 +35,7 @@ const envSchema = Joi.object({
       inject: [ConfigService],
       useFactory: (cs: ConfigService) => grpcOption(cs),
     }),
+    ArticleModule,
     AuthModule,
     HealthModule,
   ],

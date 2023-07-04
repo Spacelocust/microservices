@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["tracing"]
+  previewFeatures = ["tracing", "extendedWhereUnique"]
 }
 
 datasource db {
@@ -26,7 +26,7 @@ model Comment {
   content      String
   createdAt    DateTime @default(now()) @db.Timestamp(3)
   updatedAt    DateTime @updatedAt @db.Timestamp(3)
-  article      Article  @relation(fields: [articleId], references: [id])
+  article      Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   articleId    Int
   userId       Int
 }

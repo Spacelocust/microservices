@@ -17,6 +17,8 @@ import {
   RemoveCommentResponse,
   UpdateArticleRequest,
   UpdateArticleResponse,
+  UpdateCommentRequest,
+  UpdateCommentResponse,
 } from "./request";
 
 export const protobufPackage = "article.v1alpha";
@@ -83,6 +85,8 @@ export interface CommentServiceClient {
   addComment(request: AddCommentRequest, metadata?: Metadata): Observable<AddCommentResponse>;
 
   removeComment(request: RemoveCommentRequest, metadata?: Metadata): Observable<RemoveCommentResponse>;
+
+  updateComment(request: UpdateCommentRequest, metadata?: Metadata): Observable<UpdateCommentResponse>;
 }
 
 export interface CommentServiceController {
@@ -95,11 +99,16 @@ export interface CommentServiceController {
     request: RemoveCommentRequest,
     metadata?: Metadata,
   ): Promise<RemoveCommentResponse> | Observable<RemoveCommentResponse> | RemoveCommentResponse;
+
+  updateComment(
+    request: UpdateCommentRequest,
+    metadata?: Metadata,
+  ): Promise<UpdateCommentResponse> | Observable<UpdateCommentResponse> | UpdateCommentResponse;
 }
 
 export function CommentServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["addComment", "removeComment"];
+    const grpcMethods: string[] = ["addComment", "removeComment", "updateComment"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("CommentService", method)(constructor.prototype[method], method, descriptor);
