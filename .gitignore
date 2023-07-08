@@ -128,7 +128,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-
 data
 
 .pnpm-store
+
+.history

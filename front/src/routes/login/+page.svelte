@@ -23,18 +23,18 @@
     });
 </script>
 
-<div class="container m-auto flex w-full flex-grow flex-col py-6">
-    <h1 class="text-center text-3xl">Login</h1>
-    <form aria-busy={$submitting} method="post" action="?/login" class="flex flex-grow flex-col items-center justify-center gap-6" use:enhance>
+<div class="container mx-auto flex flex-grow flex-col py-10">
+    <h1 class="text-center">Login</h1>
+    <form aria-busy={$submitting} method="post" action="?/login" class="flex flex-grow flex-col items-center justify-center gap-10" use:enhance>
         {#if $message}
             <div transition:fade class="rounded-lg bg-red-800 p-4 text-center text-white shadow-md" role="alert">
                 <p>{$message}</p>
             </div>
         {/if}
-        <div class="flex flex-col gap-1">
+
+        <div class="form-control">
             <label for="email">Email</label>
             <input
-                class="rounded-lg border border-gray-300 bg-gray-50 p-1 text-sm text-gray-900 transition-all focus:scale-105"
                 type="email"
                 id="email"
                 name="email"
@@ -43,14 +43,14 @@
                 bind:value={$form.email}
                 {...$constraints.email}
             />
+
             {#if $errors.email}
                 <span id="email-error" class="text-red-500">{$errors.email.at(0)}</span>
             {/if}
         </div>
-        <div class="flex flex-col gap-1">
+        <div class="form-control">
             <label for="password">Password</label>
             <input
-                class="rounded-lg border border-gray-300 bg-gray-50 p-1 text-sm text-gray-900 transition-all focus:scale-105"
                 type="password"
                 id="password"
                 name="password"
@@ -59,21 +59,19 @@
                 bind:value={$form.password}
                 {...$constraints.password}
             />
+
             {#if $errors.password}
                 <span id="password-error" class="text-red-500">{$errors.password.at(0)}</span>
             {/if}
         </div>
-        <button
-            class="flex items-center justify-center gap-2 rounded-lg border border-gray-500 bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition-all hover:scale-105 hover:bg-opacity-90 focus:scale-105 focus:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-opacity-50"
-            type="submit"
-            disabled={$submitting}
-        >
+        <button class="button" type="submit" disabled={$submitting}>
             <span>Login</span>
+
             {#if $delayed || $timeout}
                 <span in:fade>
                     <svg
                         aria-hidden="true"
-                        class="h-5 w-5 animate-spin fill-white text-gray-200 dark:text-gray-600"
+                        class="h-5 w-5 animate-spin fill-white text-gray-200"
                         viewBox="0 0 100 101"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -90,6 +88,7 @@
                 </span>
             {/if}
         </button>
+
         {#if $timeout}
             <span role="status" transition:slide>Sorry, this is taking longer than expected...</span>
         {/if}

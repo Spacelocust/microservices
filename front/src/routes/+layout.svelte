@@ -1,7 +1,10 @@
 <script lang="ts">
     import '../app.postcss';
 
+    import '$lib/scss/index.scss';
+
     import { SvelteToast } from '@zerodevx/svelte-toast';
+    import { expoOut } from 'svelte/easing';
     import { fly } from 'svelte/transition';
     import { initFlash } from 'sveltekit-flash-message/client';
 
@@ -19,23 +22,25 @@
     }
 </script>
 
-<header class="flex justify-between gap-2 p-3">
-    <a href="/">gRPC + SvelteKit</a>
-    <div class="flex flex-col gap-2 md:flex-row">
-        {#if data.user}
-            <span>Logged in as : {`${data.user.firstName} ${data.user.lastName}`}</span>
-            <form use:enhance method="post" action="/logout">
-                <button type="submit">Logout</button>
-            </form>
-        {:else}
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-        {/if}
+<header class="bg-svelte">
+    <div class="container sticky mx-auto flex justify-between p-3 font-medium text-white">
+        <a href="/">gRPC + SvelteKit</a>
+        <div class="flex gap-4">
+            {#if data.user}
+                <span>Logged in as : {`${data.user.firstName} ${data.user.lastName}`}</span>
+                <form use:enhance method="post" action="/logout">
+                    <button type="submit">Logout</button>
+                </form>
+            {:else}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {/if}
+        </div>
     </div>
 </header>
 
 {#key data.url}
-    <main class="flex flex-grow flex-col" in:fly={{ x: -200, duration: 300, delay: 300 }} out:fly={{ x: 200, duration: 300 }}>
+    <main class="flex flex-grow flex-col" in:fly={{ duration: 750, easing: expoOut, opacity: 0, y: -25 }}>
         <slot />
     </main>
 {/key}

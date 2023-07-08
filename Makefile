@@ -6,10 +6,10 @@ EXECUSER=$(COMPOSE) exec user
 EXECFRONT=$(COMPOSE) exec front
 BUFF=docker run --rm -it -v "$(PWD):/microservices" -w /microservices/proto bufbuild/buf
 ifeq (up,$(firstword $(MAKECMDGOALS)))
-  # use the second argument for "up"
-  UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
-  # ...and turn them into do-nothing targets
-  $(eval $(UP_ENV_FILE):;@:)
+	# use the second argument for "up"
+	UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
+	# ...and turn them into do-nothing targets
+	$(eval $(UP_ENV_FILE):;@:)
 endif
 
 # Starting and stopping the project
