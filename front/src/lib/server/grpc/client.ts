@@ -1,6 +1,7 @@
 import { ChannelCredentials } from '@grpc/grpc-js';
 import { GrpcTransport } from '@protobuf-ts/grpc-transport';
 
+import { ArticleServiceClient } from '$api/stubs/article/v1alpha/service.client';
 import { AuthServiceClient } from '$api/stubs/auth/v1alpha/service.client';
 import { UserServiceClient } from '$api/stubs/user/v1alpha/service.client';
 
@@ -21,3 +22,10 @@ const authTransport = new GrpcTransport({
 });
 
 export const authClient = new AuthServiceClient(authTransport);
+
+const articleTransport = new GrpcTransport({
+  host: env.ARTICLE_API_URL as string,
+  channelCredentials: credentials,
+});
+
+export const articleClient = new ArticleServiceClient(articleTransport);

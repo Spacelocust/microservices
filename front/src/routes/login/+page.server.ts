@@ -43,7 +43,6 @@ export const actions = {
       throw redirect(303, '/', { type: 'success', message: 'You are now logged in.' }, event);
     } catch (error) {
       if (error instanceof RpcError) {
-        console.log(error)
         return message(form, 'Invalid credentials', {
           status: 401,
         });
