@@ -5,8 +5,7 @@ WORKDIR /home/node/api
 
 COPY ./scripts/api.sh /home/node/scripts/
 
-# COPY --from=nestjs/cli usr/local/bin/nest /usr/local/bin/nest
-RUN yarn global add @nestjs/cli
+RUN npm install -g pnpm
 
 USER node
 

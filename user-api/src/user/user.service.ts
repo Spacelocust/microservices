@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Role, User } from '@prisma/client';
-import { PrismaService } from '../primsa.service';
+import { PrismaService } from '../prisma.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -37,6 +37,7 @@ export class UserService {
     if ((await this.users({})).length === 0) {
       data.role = Role.ADMIN;
     }
+
     return this.prisma.user.create({
       data,
     });

@@ -7,14 +7,15 @@ services:
       dockerfile: docker/svelte-kit/Dockerfile
     ports:
       - 5173:5173
-    depends_on:
-      auth:
-        condition: service_healthy
     volumes:
       - ./front:/home/node/svelte-kit
     stdin_open: true
     tty: true
     restart: unless-stopped
+    environment:
+      AUTH_API_URL: "${AUTH_API_URL:?err}"
+      USER_API_URL: "${USER_API_URL:?err}"
+      ARTICLE_API_URL: "${ARTICLE_API_URL:?err}"
     container_name: mc-front
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5173/api/healthz || exit 1
@@ -43,7 +44,7 @@ services:
     ports:
       - 4002:4000
     depends_on:
-      user:
+      db:
         condition: service_healthy
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
@@ -79,8 +80,36 @@ services:
       interval: 2s
       retries: 30
 
+  article:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    container_name: mc-article
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "${ARTICLE_DB_URL:?err}"
+      AUTH_API_URL: "${AUTH_API_URL:?err}"
+      JAEGER_URL: "${JAEGER_URL:?err}"
+      JWT_SECRET: "${JWT_SECRET:?err}"
+      insecure: true
+      PORT: 4000
+    volumes:
+      - ./article-api:/home/node/api
+    stdin_open: true
+    tty: true
+    ports:
+      - 4000:4000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+      timeout: 30s
+      interval: 2s
+      retries: 30
+
   tracing:
-    image: jaegertracing/all-in-one:1.8
+    image: jaegertracing/all-in-one
     container_name: mc-tracing
     environment:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
@@ -144,7 +173,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped
-    container_name: su-phpmyadmin
+    container_name: mc-phpmyadmin
     ports:
       - 8080:80
     depends_on:

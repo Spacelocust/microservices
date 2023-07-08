@@ -6,20 +6,22 @@ EXECUSER=$(COMPOSE) exec user
 EXECFRONT=$(COMPOSE) exec front
 BUFF=docker run --rm -it -v "$(PWD):/microservices" -w /microservices/proto bufbuild/buf
 ifeq (up,$(firstword $(MAKECMDGOALS)))
-  # use the second argument for "up"
-  UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
-  # ...and turn them into do-nothing targets
-  $(eval $(UP_ENV_FILE):;@:)
+	# use the second argument for "up"
+	UP_ENV_FILE := $(wordlist 2, 2, $(MAKECMDGOALS))
+	# ...and turn them into do-nothing targets
+	$(eval $(UP_ENV_FILE):;@:)
 endif
 
 # Starting and stopping the project
 start:
 	$(COMPOSE) build --force-rm
 	$(COMPOSE) up -d --remove-orphans --force-recreate
+	make proto-export
 
 start-nocache:
 	$(COMPOSE) build --force-rm --no-cache
 	$(COMPOSE) up -d --remove-orphans --force-recreate
+	make proto-export
 
 start-ci:
 	$(COMPOSECI) build --force-rm --no-cache
@@ -132,8 +134,16 @@ format-front:
 format-fix-front:
 	$(EXECFRONT) yarn format:fix
 
-proto-export: 
+test-unit-front:
+	$(EXECFRONT) yarn test:unit
+
+test-unit-auth-watch:
+	$(EXECAUTH) yarn test:unit:watch
+
+proto-export:
 	$(BUFF) mod update
 	$(BUFF) generate
 	$(BUFF) export . --output ../auth-api/src/proto
 	$(BUFF) export . --output ../user-api/src/proto
+	$(BUFF) export . --output ../article-api/src/proto
+	$(BUFF) export . --output ../front/src/lib/api/proto
