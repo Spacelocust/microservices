@@ -116,7 +116,8 @@
     "no-param-reassign": "off",
     "one-var": ["error", "never"],
     "prefer-arrow-callback": ["off"],
-    "prettier/prettier": ["warn"]
+    "prettier/prettier": ["warn"],
+    "no-return-assign": ["off"]
   },
   "settings": {
     "import/parsers": {

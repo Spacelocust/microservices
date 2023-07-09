@@ -28,6 +28,7 @@
         <div class="flex gap-4">
             {#if data.user}
                 <span>Logged in as : {`${data.user.firstName} ${data.user.lastName}`}</span>
+                <a href="/article/new">Create an article</a>
                 <form use:enhance method="post" action="/logout">
                     <button type="submit">Logout</button>
                 </form>
