@@ -12,3 +12,5 @@ export const registerSchema = z
     message: 'Passwords do not match',
     path: ['passwordConfirmation'],
   });
+
+export type RegisterSchema = typeof registerSchema;

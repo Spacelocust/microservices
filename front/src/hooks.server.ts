@@ -4,7 +4,9 @@ import { authClient } from '$server/grpc/client';
 import { defaultOptions } from '$utils/cookie';
 import { parseIp } from '$utils/ip';
 
-export const handle = async ({ event, resolve }) => {
+import type { Handle } from '@sveltejs/kit';
+
+export const handle = (async ({ event, resolve }) => {
   event.locals.user = null;
 
   const jwt = event.cookies.get('token');
@@ -45,4 +47,4 @@ export const handle = async ({ event, resolve }) => {
   }
 
   return resolve(event);
-};
+}) satisfies Handle;

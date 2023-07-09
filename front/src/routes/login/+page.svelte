@@ -93,4 +93,5 @@
             <span role="status" transition:slide>Sorry, this is taking longer than expected...</span>
         {/if}
     </form>
+    <a href="/register" class="text-center underline">Don't have an account? Register here</a>
 </div>

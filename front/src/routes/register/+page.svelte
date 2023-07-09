@@ -141,4 +141,5 @@
             <span role="status" transition:slide>Sorry, this is taking longer than expected...</span>
         {/if}
     </form>
+    <a href="/login" class="text-center underline">Already have an account? Login here</a>
 </div>

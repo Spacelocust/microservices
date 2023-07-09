@@ -8,3 +8,5 @@ export const articleSchema = z.object({
     .min(20, 'Content must be at least 20 characters')
     .max(255, 'Content must be at most 255 characters'),
 });
+
+export type ArticleSchema = typeof articleSchema;
