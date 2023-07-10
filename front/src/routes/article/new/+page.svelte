@@ -4,6 +4,8 @@
     export let data;
 </script>
 
-<h1>Create article</h1>
+<div class="container mx-auto flex flex-grow flex-col py-10">
+    <h1 class="text-center">Create article</h1>
 
-<ArticleForm data={data.form} />
+    <ArticleForm data={data.form} />
+</div>
