@@ -16,7 +16,7 @@ export const load = async ({ locals, params }) => {
   const notFoundError = error(404, 'Article not found. Please check the URL and try again.');
 
   try {
-    const articleRes = await articleClient.getArticle({ id: parseInt(id, 10) });
+    const articleRes = await articleClient.getArticle({ id: +id });
     const { article } = articleRes.response;
 
     if (!article) {
@@ -54,7 +54,7 @@ export const actions = {
 
     try {
       const { status, response } = await articleClient.updateArticle(
-        { ...form.data, id: parseInt(id, 10) },
+        { ...form.data, id: +id },
         {
           interceptors: [
             {
@@ -102,7 +102,7 @@ export const actions = {
 
     try {
       const { status } = await articleClient.deleteArticle(
-        { id: parseInt(id, 10) },
+        { id: +id },
         {
           interceptors: [
             {

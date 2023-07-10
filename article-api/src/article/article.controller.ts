@@ -6,13 +6,13 @@ import { status as RpcStatus } from '@grpc/grpc-js';
 
 import { ArticleService } from "./article.service";
 import { CommentService } from "./comment.service";
-import { 
-  ListArticlesRequest, 
-  ListArticlesResponse, 
-  GetArticleRequest, 
-  GetArticleResponse, 
-  CreateArticleRequest, 
-  CreateArticleResponse, 
+import {
+  ListArticlesRequest,
+  ListArticlesResponse,
+  GetArticleRequest,
+  GetArticleResponse,
+  CreateArticleRequest,
+  CreateArticleResponse,
   UpdateArticleResponse,
   UpdateArticleRequest,
   DeleteArticleResponse,
@@ -28,11 +28,12 @@ import { GrpcAuthGuard } from "src/auth/auth.guard";
 import { GRPCUser, UserRequest } from "src/auth/user.decorator";
 import { CreateArticleDto, UpdateArticleDto } from "./dto/article.dto";
 import { CreateCommentDto, UpdateCommentDto } from "./dto/comment.dto";
+import { UserRole } from "src/stubs/user/v1alpha/message";
 
 @Controller('article')
 export class ArticleController {
   constructor(
-    private readonly articleService: ArticleService, 
+    private readonly articleService: ArticleService,
     private readonly commentService: CommentService
   ) {}
 
@@ -68,7 +69,7 @@ export class ArticleController {
     try {
       const dto: CreateArticleDto = await this.validateDto(req, CreateArticleDto);
       const article = await this.articleService.create({ ...dto, userId: user.id });
-      
+
       return { article } as CreateArticleResponse;
     } catch(err) {
       this.handlePrismaErr(err);
@@ -80,9 +81,9 @@ export class ArticleController {
   async UpdateArticle(@Payload() req: UpdateArticleRequest, @GRPCUser() user: UserRequest): Promise<UpdateArticleResponse> {
     try {
       const { id, ...dto }: UpdateArticleDto = await this.validateDto(req, UpdateArticleDto);
-      const article = await this.articleService.update({ data: dto, where: { 
+      const article = await this.articleService.update({ data: dto, where: {
         id,
-        userId: user.id
+        userId: user.role === UserRole.USER_ROLE_ADMIN ? undefined : user.id
       }});
 
       return { article } as CreateArticleResponse;
@@ -98,8 +99,11 @@ export class ArticleController {
       throw new RpcException("Id parameter is missing");
     } else {
       try {
-        const article = await this.articleService.delete({ id: +req.id, userId: user.id });
-  
+        const article = await this.articleService.delete({
+          id: +req.id,
+          userId: user.role === UserRole.USER_ROLE_ADMIN ? undefined : user.id
+        });
+
         return { article } as DeleteArticleResponse;
       } catch(err) {
         this.handlePrismaErr(err);
@@ -112,14 +116,14 @@ export class ArticleController {
   async AddComment(@Payload() req: AddCommentRequest, @GRPCUser() user: UserRequest): Promise<AddCommentResponse> {
     try {
       const { articleId, ...dto }: CreateCommentDto = await this.validateDto(req, CreateCommentDto);
-      const comment = await this.commentService.create({ 
-        ...dto, 
-        userId: user.id, 
+      const comment = await this.commentService.create({
+        ...dto,
+        userId: user.id,
         article: {
           connect: {
             id: articleId,
           }
-        } 
+        }
       });
       return { comment } as AddCommentResponse;
     } catch(err) {
@@ -134,8 +138,11 @@ export class ArticleController {
       throw new RpcException("Id parameter is missing");
     } else {
       try {
-        const comment = await this.commentService.delete({ id: +req.id, userId: user.id });
-  
+        const comment = await this.commentService.delete({
+          id: +req.id,
+          userId: user.role === UserRole.USER_ROLE_ADMIN ? undefined : user.id
+        });
+
         return { comment } as RemoveCommentResponse;
       } catch(err) {
         this.handlePrismaErr(err);
@@ -148,14 +155,20 @@ export class ArticleController {
   async UpdateComment(@Payload() req: UpdateCommentRequest, @GRPCUser() user: UserRequest): Promise<UpdateCommentResponse> {
     try {
       const dto: UpdateCommentDto = await this.validateDto(req, UpdateCommentDto);
-      const comment = await this.commentService.update({ data: dto, where: { id: +req.id, userId: user.id } });
+      const comment = await this.commentService.update({
+        data: dto,
+        where: {
+          id: +req.id,
+          userId: user.role === UserRole.USER_ROLE_ADMIN ? undefined : user.id
+        }
+      });
 
       return { comment } as UpdateCommentResponse;
     } catch(err) {
       this.handlePrismaErr(err);
     }
   }
-  
+
 
   private handlePrismaErr(err: Error) {
     if (err instanceof RpcException) throw err;
