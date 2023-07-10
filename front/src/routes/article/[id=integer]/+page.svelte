@@ -33,16 +33,13 @@
 
 <div class="container mx-auto flex flex-grow flex-col py-10">
     <h1 class="text-center">{data.article.title}</h1>
-
-    <p>{data.article.content}</p>
+    <p class="my-10">{data.article.content}</p>
 
     {#if isGranted}
         <div class="flex gap-4">
             <a class="button" href={`/article/${data.article.id}/edit`}>Edit</a>
         </div>
     {/if}
-
-    <h2>Comments</h2>
 
     {#if data.user}
         <form
@@ -104,9 +101,11 @@
     {/if}
 </div>
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-1 p-4">
+    <h2 class="mb-4">Comments</h2>
+
     {#each data.article.comments as comment (comment.id)}
-        <div class="flex gap-4 rounded-md border border-gray-400 bg-gray-50 p-4" animate:flip={{ duration: 200 }}>
+        <div class="border border-slate-200 bg-gray-50 p-4" animate:flip={{ duration: 200 }}>
             <p>{comment.content}</p>
         </div>
     {:else}
