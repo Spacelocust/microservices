@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { flip } from 'svelte/animate';
-    import { quadOut } from 'svelte/easing';
-    import { fade, fly } from 'svelte/transition';
+    import { expoOut } from 'svelte/easing';
+    import { fade, fly, slide } from 'svelte/transition';
 
     export let data;
 
@@ -12,34 +11,29 @@
     });
 </script>
 
-<h1>Homepage</h1>
-
 <div class="flex flex-col gap-3 p-5">
+    <h1 class="text-center">Homepage</h1>
+
     {#if data.articles.length > 0}
         <div class="form-control">
             <label for="article-search">Search articles</label>
-            <input
-                type="text"
-                bind:value={search}
-                id="article-search"
-                class="rounded-xl bg-gray-100 p-4 shadow-md transition-all duration-500 hover:bg-gray-200"
-            />
+            <input type="text" bind:value={search} id="article-search" />
         </div>
-
-        <h2>
+        <h2 class="mt-6">
             {#key filteredArticles.length}
-                <span class="inline-block" in:fly={{ y: -20, duration: 250, easing: quadOut }}>{filteredArticles.length}</span>
+                <span class="inline-block" in:fly={{ y: -20, duration: 150, easing: expoOut }}>{filteredArticles.length}</span>
             {/key}
+
             article{filteredArticles.length > 1 ? 's' : ''} found
         </h2>
 
         {#each filteredArticles as article (article.id)}
             <a
                 href={`/article/${article.id}`}
-                class="rounded-xl bg-gray-100 p-4 shadow-md transition-all duration-500 hover:bg-gray-200"
-                animate:flip={{ duration: 200 }}
+                class="rounded-full bg-gray-100 px-6 py-4 shadow transition-all hover:bg-gray-200"
+                in:slide={{ delay: 200, easing: expoOut, axis: 'x' }}
             >
-                <span>{article.title}</span>
+                <span class="font-medium">{article.title}</span>
             </a>
         {:else}
             <p in:fade>No article matched your search.</p>

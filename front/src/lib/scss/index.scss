@@ -32,8 +32,9 @@ h6 {
 
 // Form
 
-input {
-  @apply rounded border bg-gray-50 p-2;
+input,
+textarea {
+  @apply rounded-md bg-gray-50 p-2 shadow #{!important};
 }
 
 .button {

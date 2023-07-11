@@ -20,14 +20,16 @@
     });
 </script>
 
-<dialog bind:this={dialog} aria-labelledby={ariaLabelledby} aria-describedby={ariaDescribedby} on:close>
+<dialog class="rounded p-6" bind:this={dialog} aria-labelledby={ariaLabelledby} aria-describedby={ariaDescribedby} on:close>
     <slot {ariaLabelledby} {ariaDescribedby}>
         <slot name="title">
             <h2 id={ariaLabelledby}>{title}</h2>
         </slot>
-        <slot name="description">
-            <p class:sr-only={hideDescription} id={ariaDescribedby}>{description}</p>
-        </slot>
+        <div class="my-6">
+            <slot name="description">
+                <p class:sr-only={hideDescription} id={ariaDescribedby}>{description}</p>
+            </slot>
+        </div>
         <slot name="content" />
         <slot name="actions">
             <button type="button" on:click={() => dialog.close()}>Close</button>
